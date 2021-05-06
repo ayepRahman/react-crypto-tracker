@@ -1,15 +1,18 @@
 import React from "react";
-import { MuiThemeProvider } from "@material-ui/core";
 import ReactDOM from "react-dom";
+import { ThemeProvider } from "styled-components";
 import App from "containers/App";
 import { GlobalStyle } from "styles";
 import reportWebVitals from "./reportWebVitals";
+import { theme } from "styles";
 import "@fontsource/roboto";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-    <GlobalStyle />
+    <ThemeProvider theme={theme}>
+      <App />
+      <GlobalStyle />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

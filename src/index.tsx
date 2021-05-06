@@ -1,14 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import { MuiThemeProvider } from "@material-ui/core";
+import ReactDOM from "react-dom";
+import App from "containers/App";
+import { GlobalStyle } from "styles";
+import reportWebVitals from "./reportWebVitals";
+import "@fontsource/roboto";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <GlobalStyle />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

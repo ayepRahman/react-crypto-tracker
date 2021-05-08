@@ -1,5 +1,5 @@
 import React from "react";
-import Market from "pages/Market";
+import Market from "containers/Market";
 
 const App = () => {
   return (

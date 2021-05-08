@@ -1,6 +1,6 @@
 export interface DataProps {
   date: string;
-  close: number;
+  price: number;
 }
 
 export interface MainChartProps {

@@ -43,8 +43,8 @@ const tooltipStyles = {
 
 // accessors
 const getDate = (d: DataProps) => new Date(d.date);
-const getStockValue = (d: DataProps) => d.close;
-const getFormatValue = (d: DataProps) => numeral(d.close).format("$0,0");
+const getStockValue = (d: DataProps) => d.price;
+const getFormatValue = (d: DataProps) => numeral(d.price).format("$0,0");
 const bisectDate = bisector<DataProps, Date>((d) => new Date(d.date)).left;
 
 const MainChart = withTooltip<MainChartProps, TooltipData>(

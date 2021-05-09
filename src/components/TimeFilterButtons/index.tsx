@@ -1,11 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
-import useAxios from "axios-hooks";
-import MainChart from "components/MainChart";
-import numeral from "numeral";
-import { ButtonGroup, Button } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
-import styled from "styled-components";
 import useOptionalControlledState from "hooks/useOptionalControlledState";
 import { TimeFilters } from "enums/TimeFilters";
 

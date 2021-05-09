@@ -36,6 +36,7 @@ export enum ColorsEnum {
   coolgray4 = "#A3B7B7",
   white = "#FFFFFF",
   niceblue = "#41aae7",
+  lapislazuli = "#26619C",
 }
 
 export type ColorsType = keyof typeof ColorsEnum;

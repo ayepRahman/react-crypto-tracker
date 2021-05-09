@@ -2,14 +2,8 @@ import React, { useMemo, useCallback } from "react";
 import { format } from "date-fns";
 import numeral from "numeral";
 import {
-  AreaClosed,
-  Area,
   Line,
   Bar,
-  GridRows,
-  GridColumns,
-  withTooltip,
-  Tooltip,
   useTooltip,
   TooltipWithBounds,
   defaultStyles as defaultToopTipStyles,
@@ -18,10 +12,10 @@ import {
 } from "@visx/visx";
 import { curveMonotoneX } from "@visx/curve";
 import { scaleTime, scaleLinear } from "@visx/scale";
-import { WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
 import { max, extent, bisector } from "d3-array";
 import { MainChartProps, TooltipData, DataProps } from "./interfaces";
-// import { theme } from "styles";
+import LineChart from "components/LineChart";
+import { theme } from "styles";
 
 // const data = appleStock.slice(1000);
 
@@ -65,6 +59,8 @@ const MainChart: React.FC<MainChartProps> = ({
   // bounds
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
+  const xMax = Math.max(width - margin.left - margin.right, 0);
+  const yMax = Math.max(innerHeight, 0);
 
   // scales
   const dateScale = useMemo(() => {
@@ -73,12 +69,10 @@ const MainChart: React.FC<MainChartProps> = ({
       domain: extent(data, getDate) as [Date, Date],
     });
   }, [innerWidth, margin.left, data]);
-  const valueScale = useMemo(() => {
+  const priceScale = useMemo(() => {
     return scaleLinear({
-      // range: [0, 1],
       range: [innerHeight + margin.top, margin.top],
       domain: [0, (max(data, getStockValue) || 0) + innerHeight / 3],
-      // domain: [0, (max(data, getStockValue) || 0) + innerHeight / 3],
       nice: true,
     });
     //
@@ -96,6 +90,7 @@ const MainChart: React.FC<MainChartProps> = ({
       const d1 = data[index];
       let d = d0;
 
+      // calculate the cursor position and convert where to position the tooltip box.
       if (d1 && getDate(d1)) {
         d =
           x0.valueOf() - getDate(d0).valueOf() >
@@ -107,10 +102,10 @@ const MainChart: React.FC<MainChartProps> = ({
       showTooltip({
         tooltipData: d,
         tooltipLeft: x,
-        tooltipTop: valueScale(getStockValue(d)),
+        tooltipTop: priceScale(getStockValue(d)),
       });
     },
-    [showTooltip, valueScale, dateScale, data]
+    [showTooltip, priceScale, dateScale, data]
   );
 
   return (
@@ -126,7 +121,7 @@ const MainChart: React.FC<MainChartProps> = ({
           // rx control the border curve of rect
           // rx={16}
         />
-        <LinearGradient
+        {/* <LinearGradient
           id="area-background-gradient"
           from={background}
           to={background2}
@@ -136,7 +131,7 @@ const MainChart: React.FC<MainChartProps> = ({
           from={accentColor}
           to={accentColor}
           toOpacity={0.1}
-        />
+        /> */}
         {/* <GridRows
             left={margin.left}
             scale={stockValueScale}
@@ -155,16 +150,25 @@ const MainChart: React.FC<MainChartProps> = ({
             strokeOpacity={0.2}
             pointerEvents="none"
           /> */}
-        <AreaClosed<DataProps>
+        <LineChart
+          hideBottomAxis={false}
           data={data}
-          x={(d) => dateScale(getDate(d)) ?? 0}
-          y={(d) => valueScale(getStockValue(d)) ?? 0}
-          yScale={valueScale}
-          strokeWidth={1}
+          width={width}
+          margin={{ ...margin }}
+          yMax={innerHeight}
+          xScale={dateScale}
+          yScale={priceScale}
+          stroke={theme.colors.lapislazuli}
+          // x={(d) => dateScale(getDate(d)) ?? 0}
+          // y={(d) => valueScale(getStockValue(d)) ?? 0}
+          // yScale={priceScale}
+          // xScale={dateScale}
+
+          // strokeWidth={1}
           // color uses lineGradient component id to draw
-          stroke="url(#area-gradient)"
-          fill="url(#area-gradient)"
-          curve={curveMonotoneX}
+          // stroke="url(#area-gradient)"
+          // fill="url(#area-gradient)"
+          // curve={curveMonotoneX}
         />
         {/* a transparent ele that track the pointer event, allow us to display tooltup */}
         <Bar

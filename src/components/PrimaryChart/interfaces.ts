@@ -1,7 +1,4 @@
-export interface DataProps {
-  date: string;
-  price: number;
-}
+import { DataProps } from "interfaces/DataProps";
 
 export interface MainChartProps {
   data: DataProps[];

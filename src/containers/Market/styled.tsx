@@ -4,8 +4,15 @@ const MarketHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 4rem;
+  margin-bottom: 1rem;
+`;
+
+const Title = styled.h2`
+  color: ${(p) => p.theme.colors.primary};
 `;
 
 export const SC = {
   MarketHeader,
+  Title,
 };

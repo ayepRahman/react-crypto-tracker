@@ -13,7 +13,8 @@ import {
 } from "@visx/visx";
 import { scaleTime, scaleLinear } from "@visx/scale";
 import { max, min, extent, bisector } from "d3-array";
-import { MainChartProps, TooltipData, DataProps } from "./interfaces";
+import { MainChartProps } from "./interfaces";
+import { DataProps } from "interfaces/DataProps";
 import LineChart from "components/LineChart";
 import { theme } from "styles";
 
@@ -43,7 +44,7 @@ const MainChart: React.FC<MainChartProps> = ({
     tooltipData,
     tooltipTop = 0,
     tooltipLeft = 0,
-  } = useTooltip<TooltipData>();
+  } = useTooltip<DataProps>();
 
   // bounds
   const xMax = Math.max(width - margin.left - margin.right, 0);
@@ -147,8 +148,9 @@ const MainChart: React.FC<MainChartProps> = ({
             <Line
               from={{ x: tooltipLeft, y: margin.top }}
               to={{ x: tooltipLeft, y: yMax + margin.top }}
-              stroke={"gray"}
+              stroke={theme.colors.primary}
               strokeWidth={2}
+              opacity={0.5}
               pointerEvents="none"
               strokeDasharray="5,2"
             />

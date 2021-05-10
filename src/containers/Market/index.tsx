@@ -2,21 +2,26 @@ import React from "react";
 import { Grid, Snackbar, SnackbarCloseReason } from "@material-ui/core";
 import { Skeleton, Alert } from "@material-ui/lab";
 import useAxios from "axios-hooks";
-import MainChart from "components/MainChart";
+import PrimaryChart from "components/PrimaryChart";
 import TimeFilterButtons from "components/TimeFilterButtons";
 import { SC } from "./styled";
-import { DataProps } from "components/MainChart/interfaces";
+import { DataProps } from "interfaces/DataProps";
+import useWindowDimensions from "hooks/useWindowDimensions";
+
+/**
+ *  TODO:
+ * format price,
+ * format date,
+ * add margin top & right for cutout ticks
+ * secondary chart - brush component for handling timeRange
+ *  */
 
 const Market = () => {
   const [timeFilter, setTimeFilter] = React.useState<string>("1");
   const [isErrorMessage, setIsErrorMessage] = React.useState<string>("");
-  const [boxSize, setBoxSize] = React.useState<{
-    height: number;
-    width: number;
-  }>({
-    height: 400,
-    width: 0,
-  });
+  const [boxWidth, setBoxWidth] = React.useState<number>(0);
+  const { height } = useWindowDimensions();
+
   const [{ data, loading, error }] = useAxios(
     `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${timeFilter}`
   );
@@ -29,23 +34,20 @@ const Market = () => {
   }, [error]);
 
   React.useEffect(() => {
-    const handleResize = (height?: number, width?: number) => {
-      setBoxSize({
-        height: boxSize.height,
-        width: width || 0,
-      });
+    const handleResize = (width?: number) => {
+      setBoxWidth(width || 0);
     };
 
-    handleResize(boxSize.height, gridItemRef.current?.clientWidth || 0);
+    handleResize(gridItemRef.current?.clientWidth || 0);
 
     window.addEventListener("resize", () =>
-      handleResize(boxSize.height, gridItemRef?.current?.clientWidth || 0)
+      handleResize(gridItemRef?.current?.clientWidth || 0)
     );
 
     // return () => {
     //   window.removeEventListener("resize", () => handleResize());
     // };
-  }, [gridItemRef, boxSize.height]);
+  }, [gridItemRef]);
 
   const mappedData: DataProps[] = data
     ? data?.prices.map((ele: any) => ({
@@ -65,7 +67,7 @@ const Market = () => {
     <Grid container justify="center">
       <Grid ref={gridItemRef} item xs={8}>
         <SC.MarketHeader>
-          <h1>Bitcoin</h1>
+          <SC.Title>Bitcoin</SC.Title>
           <TimeFilterButtons
             value={timeFilter}
             onChange={(v) => setTimeFilter(v || "")}
@@ -74,21 +76,23 @@ const Market = () => {
         {loading ? (
           <Skeleton
             variant="rect"
-            height={boxSize.height}
-            width={boxSize.width}
+            height={Math.floor(height * 0.4)}
+            width={boxWidth}
           />
         ) : (
-          <MainChart
-            data={mappedData}
-            height={boxSize.height}
-            width={boxSize.width}
-            margin={{
-              top: 0,
-              right: 0,
-              bottom: 24,
-              left: 40,
-            }}
-          />
+          <>
+            <PrimaryChart
+              data={mappedData}
+              height={Math.floor(height * 0.4)}
+              width={boxWidth}
+              margin={{
+                top: 0,
+                right: 0,
+                bottom: 24,
+                left: 48,
+              }}
+            />
+          </>
         )}
       </Grid>
       <Snackbar open={!!isErrorMessage} onClose={handleError}>

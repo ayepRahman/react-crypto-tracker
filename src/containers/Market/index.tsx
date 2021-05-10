@@ -3,6 +3,7 @@ import { Grid, Snackbar, SnackbarCloseReason } from "@material-ui/core";
 import { Skeleton, Alert } from "@material-ui/lab";
 import useAxios from "axios-hooks";
 import PrimaryChart from "components/PrimaryChart";
+import SecondaryChart from "components/SecondaryChart";
 import TimeFilterButtons from "components/TimeFilterButtons";
 import { SC } from "./styled";
 import { DataProps } from "interfaces/DataProps";
@@ -76,7 +77,7 @@ const Market = () => {
         {loading ? (
           <Skeleton
             variant="rect"
-            height={Math.floor(height * 0.4)}
+            height={Math.floor(height * 0.6)}
             width={boxWidth}
           />
         ) : (
@@ -89,6 +90,17 @@ const Market = () => {
                 top: 0,
                 right: 0,
                 bottom: 24,
+                left: 48,
+              }}
+            />
+            <SecondaryChart
+              data={mappedData}
+              height={Math.floor(height * 0.1)}
+              width={boxWidth}
+              margin={{
+                top: 0,
+                right: 0,
+                bottom: 0,
                 left: 48,
               }}
             />

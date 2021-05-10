@@ -10,8 +10,9 @@ import {
   localPoint,
   GridRows,
   GridColumns,
+  scaleLinear,
+  scaleTime,
 } from "@visx/visx";
-import { scaleTime, scaleLinear } from "@visx/scale";
 import { max, min, extent, bisector } from "d3-array";
 import { MainChartProps } from "./interfaces";
 import { DataProps } from "interfaces/DataProps";
@@ -101,6 +102,7 @@ const MainChart: React.FC<MainChartProps> = ({
     <div style={{ position: "relative" }}>
       <svg width={width} height={height}>
         <GridRows
+          top={margin.top}
           left={margin.left}
           scale={priceScale}
           width={xMax}
@@ -111,6 +113,7 @@ const MainChart: React.FC<MainChartProps> = ({
         />
         <GridColumns
           top={margin.top}
+          left={margin.left}
           scale={dateScale}
           height={yMax}
           strokeDasharray="1,3"
@@ -119,7 +122,6 @@ const MainChart: React.FC<MainChartProps> = ({
           pointerEvents="none"
         />
         <LineChart
-          hideBottomAxis={false}
           data={data}
           width={width}
           margin={{ ...margin }}

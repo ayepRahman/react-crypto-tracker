@@ -5,24 +5,25 @@ import {
   AxisLeft,
   AxisBottom,
   curveMonotoneX,
+  LinearGradient,
 } from "@visx/visx";
-import { LineChartProps, DataProps } from "./interfaces";
+import { AreaChartProps, DataProps } from "./interfaces";
 import {
   AXIS_COLOR,
   AXIS_BOTTOM_TICK_LABEL_PROPS,
   AXIS_LEFT_TICK_LABEL_PROPS,
 } from "./constants";
 
-const LineChart: React.FC<LineChartProps> = ({
+const AreaChart: React.FC<AreaChartProps> = ({
   data,
   width,
   yMax,
   margin,
   xScale,
   yScale,
+  gradientColor,
   hideBottomAxis = false,
   hideLeftAxis = false,
-  stroke,
   top,
   left,
   children,
@@ -34,13 +35,21 @@ const LineChart: React.FC<LineChartProps> = ({
   if (width < 10) return null;
   return (
     <Group left={left || margin.left} top={top || margin.top}>
+      <LinearGradient
+        id="gradient"
+        from={gradientColor}
+        fromOpacity={1}
+        to={gradientColor}
+        toOpacity={0.2}
+      />
       <AreaClosed<DataProps>
         data={data}
         x={(d) => xScale(getDate(d)) || 0}
         y={(d) => yScale(getStockValue(d)) || 0}
         yScale={yScale}
         strokeWidth={1.5}
-        stroke={stroke}
+        stroke={`url(#gradient)`}
+        fill={`url(#gradient)`}
         curve={curveMonotoneX}
       />
       {!hideBottomAxis && (
@@ -67,4 +76,4 @@ const LineChart: React.FC<LineChartProps> = ({
   );
 };
 
-export default LineChart;
+export default AreaChart;

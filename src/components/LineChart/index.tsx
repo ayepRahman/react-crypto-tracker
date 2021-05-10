@@ -1,20 +1,13 @@
 import React from "react";
 import {
   Group,
-  AreaClosed,
-  // AreaClosedProps,
   LinePath,
   AxisLeft,
   AxisBottom,
   AxisScale,
-  LinearGradient,
   curveMonotoneX,
 } from "@visx/visx";
-import { AppleStock } from "@visx/mock-data/lib/mocks/appleStock";
 import { DataProps } from "components/MainChart/interfaces";
-
-//TODO: figure how to add axis in linepath
-// figure how to show tick base on margin
 
 // Initialize some variables
 const axisColor = "black";
@@ -70,18 +63,10 @@ const LineChart: React.FC<LineChartProps> = ({
   if (width < 10) return null;
   return (
     <Group left={left || margin.left} top={top || margin.top}>
-      {/* <LinearGradient
-        id="gradient"
-        from={gradientColor}
-        fromOpacity={1}
-        to={gradientColor}
-        toOpacity={1}
-      /> */}
       <LinePath<DataProps>
         data={data}
         x={(d) => xScale(getDate(d)) || 0}
         y={(d) => yScale(getStockValue(d)) || 0}
-        // yScale={(d: DataProps) => yScale(getDate(d)) || 0}
         strokeWidth={1.5}
         stroke={stroke}
         curve={curveMonotoneX}
@@ -93,13 +78,6 @@ const LineChart: React.FC<LineChartProps> = ({
           numTicks={width > 520 ? 10 : 5}
           stroke={axisColor}
           tickStroke={axisColor}
-          // tickFormat={(d) => {
-          //   console.log(d);
-          //   return d;
-          // }}
-          // tickFormat=(d => {
-          //   return d
-          // })
           tickLabelProps={() => axisBottomTickLabelProps}
         />
       )}

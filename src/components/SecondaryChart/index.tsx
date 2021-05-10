@@ -2,14 +2,16 @@ import React from "react";
 import { DataProps } from "interfaces/DataProps";
 import AreaChart from "components/AreaChart";
 import { Brush, LinearGradient, scaleLinear, scaleTime } from "@visx/visx";
-import BaseBrush, {
-  BaseBrushState,
-  UpdateBrush,
-} from "@visx/brush/lib/BaseBrush";
+import BaseBrush from "@visx/brush/lib/BaseBrush";
 import { Bounds } from "@visx/brush/lib/types";
-import { max, min, extent, bisector } from "d3-array";
+import { max, min, extent } from "d3-array";
 import { theme } from "styles";
-import numeral from "numeral";
+import { MarketContext } from "store/MarketProvider";
+
+/**
+ * TODO:
+ * add left and right indicator for dragging?
+ */
 
 export interface SecondaryChartProps {
   data: DataProps[];
@@ -21,8 +23,6 @@ export interface SecondaryChartProps {
 // accessors
 const getDate = (d: DataProps) => new Date(d.date);
 const getStockValue = (d: DataProps) => d.price;
-const getFormatValue = (d: DataProps) => numeral(d.price).format("$0,0");
-const bisectDate = bisector<DataProps, Date>((d) => new Date(d.date)).left;
 
 const SecondaryChart: React.FC<SecondaryChartProps> = ({
   data,
@@ -30,16 +30,14 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
   height,
   margin = { top: 0, right: 0, bottom: 0, left: 0 },
 }) => {
-  const [filteredStock, setFilteredStock] = React.useState(data);
+  const {
+    filteredDataState: { setFilteredData },
+  } = React.useContext(MarketContext);
   const brushRef = React.useRef<BaseBrush | null>(null);
+
   // bounds
   const xMax = Math.max(width - margin.left - margin.right, 0);
   const yMax = Math.max(height - margin.top - margin.bottom, 0);
-  // const xBrushMax = Math.max(width - brushMargin.left - brushMargin.right, 0);
-  // const yBrushMax = Math.max(
-  //   bottomChartHeight - brushMargin.top - brushMargin.bottom,
-  //   0
-  // );
 
   // scales
   const dateScale = React.useMemo(() => {
@@ -59,28 +57,17 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
 
   const initialBrushPosition = React.useMemo(
     () => ({
-      start: { x: dateScale(getDate(data[50])) },
-      end: { x: dateScale(getDate(data[100])) },
+      start: { x: dateScale(getDate(data[0])) },
+      end: { x: dateScale(getDate(data[data.length - 1])) },
     }),
     [dateScale, data]
   );
-  // const brushDateScale = React.useMemo(
-  //   () =>
-  //     scaleTime<number>({
-  //       range: [0, xMax],
-  //       domain: extent(data, getDate) as [Date, Date],
-  //     }),
-  //   [xMax]
-  // );
-  // const brushStockScale = React.useMemo(
-  //   () =>
-  //     scaleLinear({
-  //       range: [yBrushMax, 0],
-  //       domain: [0, max(stock, getStockValue) || 0],
-  //       nice: true,
-  //     }),
-  //   [yBrushMax]
-  // );
+
+  React.useEffect(() => {
+    if (data.length) {
+      setFilteredData(data);
+    }
+  }, [data, setFilteredData]);
 
   const onBrushChange = (domain: Bounds | null) => {
     if (!domain) return;
@@ -90,7 +77,8 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
       const y = getStockValue(s);
       return x > x0 && x < x1 && y > y0 && y < y1;
     });
-    setFilteredStock(filteredData);
+
+    setFilteredData(filteredData);
   };
 
   return (
@@ -126,7 +114,9 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
             brushDirection="horizontal"
             initialBrushPosition={initialBrushPosition}
             onChange={onBrushChange}
-            onClick={() => setFilteredStock(data)}
+            onClick={() => {
+              setFilteredData(data);
+            }}
             selectedBoxStyle={{
               fill: `url(#brush-gradient)`,
               stroke: "white",

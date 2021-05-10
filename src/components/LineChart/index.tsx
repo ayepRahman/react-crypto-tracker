@@ -26,6 +26,7 @@ const AreaChart: React.FC<LineChartProps> = ({
   stroke,
   top,
   left,
+  xTickFormat,
   children,
 }) => {
   // accessors
@@ -60,6 +61,9 @@ const AreaChart: React.FC<LineChartProps> = ({
           stroke={AXIS_COLOR}
           tickStroke={AXIS_COLOR}
           tickLabelProps={() => AXIS_LEFT_TICK_LABEL_PROPS}
+          tickFormat={(d) => {
+            return xTickFormat ? xTickFormat(d) : d;
+          }}
         />
       )}
       {children}

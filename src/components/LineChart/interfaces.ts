@@ -14,4 +14,5 @@ export interface LineChartProps {
   top?: number;
   left?: number;
   children?: React.ReactNode;
+  xTickFormat?: (d: any) => any;
 }

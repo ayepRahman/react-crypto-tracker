@@ -8,6 +8,7 @@ import TimeFilterButtons from "components/TimeFilterButtons";
 import { SC } from "./styled";
 import { DataProps } from "interfaces/DataProps";
 import useWindowDimensions from "hooks/useWindowDimensions";
+import MarketProvider from "store/MarketProvider";
 
 /**
  *  TODO:
@@ -65,54 +66,56 @@ const Market = () => {
   };
 
   return (
-    <Grid container justify="center">
-      <Grid ref={gridItemRef} item xs={8}>
-        <SC.MarketHeader>
-          <SC.Title>Bitcoin</SC.Title>
-          <TimeFilterButtons
-            value={timeFilter}
-            onChange={(v) => setTimeFilter(v || "")}
-          />
-        </SC.MarketHeader>
-        {loading ? (
-          <Skeleton
-            variant="rect"
-            height={Math.floor(height * 0.6)}
-            width={boxWidth}
-          />
-        ) : (
-          <>
-            <PrimaryChart
-              data={mappedData}
-              height={Math.floor(height * 0.4)}
-              width={boxWidth}
-              margin={{
-                top: 0,
-                right: 0,
-                bottom: 24,
-                left: 48,
-              }}
+    <MarketProvider>
+      <Grid container justify="center">
+        <Grid ref={gridItemRef} item xs={8}>
+          <SC.MarketHeader>
+            <SC.Title>Bitcoin</SC.Title>
+            <TimeFilterButtons
+              value={timeFilter}
+              onChange={(v) => setTimeFilter(v || "")}
             />
-            <SecondaryChart
-              data={mappedData}
-              height={Math.floor(height * 0.1)}
+          </SC.MarketHeader>
+          {loading ? (
+            <Skeleton
+              variant="rect"
+              height={Math.floor(height * 0.6)}
               width={boxWidth}
-              margin={{
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 48,
-              }}
             />
-          </>
-        )}
+          ) : (
+            <>
+              <PrimaryChart
+                data={mappedData ?? []}
+                height={Math.floor(height * 0.4)}
+                width={boxWidth}
+                margin={{
+                  top: 0,
+                  right: 0,
+                  bottom: 24,
+                  left: 48,
+                }}
+              />
+              <SecondaryChart
+                data={mappedData}
+                height={Math.floor(height * 0.1)}
+                width={boxWidth}
+                margin={{
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 48,
+                }}
+              />
+            </>
+          )}
+        </Grid>
+        <Snackbar open={!!isErrorMessage} onClose={handleError}>
+          <Alert onClose={handleError} severity="error">
+            {isErrorMessage}
+          </Alert>
+        </Snackbar>
       </Grid>
-      <Snackbar open={!!isErrorMessage} onClose={handleError}>
-        <Alert onClose={handleError} severity="error">
-          {isErrorMessage}
-        </Alert>
-      </Snackbar>
-    </Grid>
+    </MarketProvider>
   );
 };
 

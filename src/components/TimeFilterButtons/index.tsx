@@ -24,14 +24,12 @@ export const TimeFilterButtons: React.FC<{
     initialValue: TimeFilters.P1D,
     onChange,
   });
-  console.log("FILTER", filter);
 
   return (
     <ToggleButtonGroup
       value={filter}
       exclusive
       onChange={(e, v) => {
-        console.log("ToggleButtonGroup", v);
         setFilter(v);
       }}
       color="primary"

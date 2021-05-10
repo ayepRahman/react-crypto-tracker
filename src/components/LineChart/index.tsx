@@ -93,6 +93,13 @@ const LineChart: React.FC<LineChartProps> = ({
           numTicks={width > 520 ? 10 : 5}
           stroke={axisColor}
           tickStroke={axisColor}
+          // tickFormat={(d) => {
+          //   console.log(d);
+          //   return d;
+          // }}
+          // tickFormat=(d => {
+          //   return d
+          // })
           tickLabelProps={() => axisBottomTickLabelProps}
         />
       )}

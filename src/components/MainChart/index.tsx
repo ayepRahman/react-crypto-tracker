@@ -12,7 +12,7 @@ import {
 } from "@visx/visx";
 import { curveMonotoneX } from "@visx/curve";
 import { scaleTime, scaleLinear } from "@visx/scale";
-import { max, extent, bisector } from "d3-array";
+import { max, min, extent, bisector } from "d3-array";
 import { MainChartProps, TooltipData, DataProps } from "./interfaces";
 import LineChart from "components/LineChart";
 import { theme } from "styles";
@@ -65,14 +65,15 @@ const MainChart: React.FC<MainChartProps> = ({
   // scales
   const dateScale = useMemo(() => {
     return scaleTime({
-      range: [margin.left, innerWidth + margin.left],
+      range: [0, innerWidth],
       domain: extent(data, getDate) as [Date, Date],
     });
   }, [innerWidth, margin.left, data]);
   const priceScale = useMemo(() => {
     return scaleLinear({
       range: [innerHeight + margin.top, margin.top],
-      domain: [0, (max(data, getStockValue) || 0) + innerHeight / 3],
+      domain: [min(data, getStockValue) || 0, max(data, getStockValue) || 0],
+      // domain: [0, (max(data, getStockValue) || 0) + innerHeight / 3],
       nice: true,
     });
     //
@@ -84,7 +85,10 @@ const MainChart: React.FC<MainChartProps> = ({
       event: React.TouchEvent<SVGRectElement> | React.MouseEvent<SVGRectElement>
     ) => {
       const { x } = localPoint(event) || { x: 0 };
-      const x0 = dateScale.invert(x);
+      const currX = x - margin.left;
+
+      console.log(x);
+      const x0 = dateScale.invert(currX);
       const index = bisectDate(data, x0, 1);
       const d0 = data[index - 1];
       const d1 = data[index];
@@ -159,16 +163,6 @@ const MainChart: React.FC<MainChartProps> = ({
           xScale={dateScale}
           yScale={priceScale}
           stroke={theme.colors.lapislazuli}
-          // x={(d) => dateScale(getDate(d)) ?? 0}
-          // y={(d) => valueScale(getStockValue(d)) ?? 0}
-          // yScale={priceScale}
-          // xScale={dateScale}
-
-          // strokeWidth={1}
-          // color uses lineGradient component id to draw
-          // stroke="url(#area-gradient)"
-          // fill="url(#area-gradient)"
-          // curve={curveMonotoneX}
         />
         {/* a transparent ele that track the pointer event, allow us to display tooltup */}
         <Bar
@@ -190,7 +184,7 @@ const MainChart: React.FC<MainChartProps> = ({
             <Line
               from={{ x: tooltipLeft, y: margin.top }}
               to={{ x: tooltipLeft, y: innerHeight + margin.top }}
-              stroke={accentColorDark}
+              stroke={"gray"}
               strokeWidth={2}
               pointerEvents="none"
               strokeDasharray="5,2"
@@ -223,7 +217,7 @@ const MainChart: React.FC<MainChartProps> = ({
           <TooltipWithBounds
             key={Math.random()}
             top={tooltipTop - 12}
-            left={tooltipLeft + 12}
+            left={tooltipLeft}
             style={tooltipStyles}
           >
             <ul style={{ padding: "0", margin: "0", listStyle: "none" }}>

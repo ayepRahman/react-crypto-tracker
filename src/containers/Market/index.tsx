@@ -82,6 +82,12 @@ const Market = () => {
             data={mappedData}
             height={boxSize.height}
             width={boxSize.width}
+            margin={{
+              top: 0,
+              right: 0,
+              bottom: 24,
+              left: 40,
+            }}
           />
         )}
       </Grid>

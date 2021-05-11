@@ -7,22 +7,7 @@ import { Bounds } from "@visx/brush/lib/types";
 import { max, min, extent } from "d3-array";
 import { theme } from "styles";
 import { MarketContext } from "store/MarketProvider";
-
-/**
- * TODO:
- * add left and right indicator for dragging?
- */
-
-export interface SecondaryChartProps {
-  data: DataProps[];
-  width: number;
-  height: number;
-  margin?: { top: number; right: number; bottom: number; left: number };
-}
-
-// accessors
-const getDate = (d: DataProps) => new Date(d.date);
-const getStockValue = (d: DataProps) => d.price;
+import { SecondaryChartProps } from "./interfaces";
 
 const SecondaryChart: React.FC<SecondaryChartProps> = ({
   data,
@@ -38,6 +23,10 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
   // bounds
   const xMax = Math.max(width - margin.left - margin.right, 0);
   const yMax = Math.max(height - margin.top - margin.bottom, 0);
+
+  // accessors
+  const getDate = (d: DataProps) => new Date(d.date);
+  const getStockValue = (d: DataProps) => d.price;
 
   // scales
   const dateScale = React.useMemo(() => {
@@ -86,7 +75,6 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
       <svg width={width} height={height}>
         <AreaChart
           hideLeftAxis
-          hideBottomAxis
           data={data}
           width={width}
           margin={{ ...margin }}
@@ -98,10 +86,11 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
           <LinearGradient
             id="brush-gradient"
             from={theme.colors.primary}
-            fromOpacity={0.5}
+            fromOpacity={0.3}
             to={theme.colors.primary}
-            toOpacity={0.5}
+            toOpacity={0.3}
           />
+
           <Brush
             innerRef={brushRef}
             xScale={dateScale}
@@ -119,7 +108,7 @@ const SecondaryChart: React.FC<SecondaryChartProps> = ({
             }}
             selectedBoxStyle={{
               fill: `url(#brush-gradient)`,
-              stroke: "white",
+              stroke: theme.colors.primary,
             }}
           />
         </AreaChart>

@@ -8,8 +8,6 @@ import {
   TooltipWithBounds,
   defaultStyles as defaultToopTipStyles,
   localPoint,
-  GridRows,
-  GridColumns,
   scaleLinear,
   scaleTime,
 } from "@visx/visx";
@@ -19,14 +17,6 @@ import { DataProps } from "interfaces/DataProps";
 import LineChart from "components/LineChart";
 import { theme } from "styles";
 import { MarketContext } from "store/MarketProvider";
-
-const tooltipStyles = {
-  ...defaultToopTipStyles,
-  background: theme.colors.lapislazuli,
-  padding: "0.5rem",
-  border: "1px solid white",
-  color: "white",
-};
 
 // accessors
 const getDate = (d: DataProps) => new Date(d.date);
@@ -106,28 +96,8 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
   );
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", margin: "0 0 1rem" }}>
       <svg width={width} height={height}>
-        <GridRows
-          top={margin.top}
-          left={margin.left}
-          scale={priceScale}
-          width={xMax}
-          strokeDasharray="1,3"
-          stroke={"black"}
-          strokeOpacity={0}
-          pointerEvents="none"
-        />
-        <GridColumns
-          top={margin.top}
-          left={margin.left}
-          scale={dateScale}
-          height={yMax}
-          strokeDasharray="1,3"
-          stroke={"black"}
-          strokeOpacity={0.2}
-          pointerEvents="none"
-        />
         <LineChart
           data={filteredData}
           width={width}
@@ -143,7 +113,7 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
         {/* a transparent ele that track the pointer event, allow us to display tooltup */}
         <Bar
           x={margin.left}
-          y={margin.top}
+          y={margin.top * 2}
           width={xMax}
           height={yMax}
           fill="transparent"
@@ -158,8 +128,8 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
         {tooltipData && (
           <g>
             <Line
-              from={{ x: tooltipLeft, y: margin.top }}
-              to={{ x: tooltipLeft, y: yMax + margin.top }}
+              from={{ x: tooltipLeft, y: margin.top * 2 }}
+              to={{ x: tooltipLeft, y: yMax + margin.top * 2 }}
               stroke={theme.colors.primary}
               strokeWidth={2}
               opacity={0.5}
@@ -168,7 +138,7 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
             />
             <circle
               cx={tooltipLeft}
-              cy={tooltipTop + 1}
+              cy={tooltipTop + 1 + margin.top}
               r={4}
               fill="black"
               fillOpacity={0.1}
@@ -179,7 +149,7 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
             />
             <circle
               cx={tooltipLeft}
-              cy={tooltipTop}
+              cy={tooltipTop + margin.top}
               r={4}
               fill={theme.colors.lapislazuli}
               stroke="white"
@@ -195,7 +165,13 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
             key={Math.random()}
             top={tooltipTop - 12}
             left={tooltipLeft}
-            style={tooltipStyles}
+            style={{
+              ...defaultToopTipStyles,
+              background: theme.colors.lapislazuli,
+              padding: "0.5rem",
+              border: "1px solid white",
+              color: "white",
+            }}
           >
             <ul style={{ padding: "0", margin: "0", listStyle: "none" }}>
               <li style={{ paddingBottom: "0.25rem" }}>

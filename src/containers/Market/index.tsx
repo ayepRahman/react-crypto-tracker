@@ -89,9 +89,9 @@ const Market = () => {
                 height={Math.floor(height * 0.4)}
                 width={boxWidth}
                 margin={{
-                  top: 0,
-                  right: 0,
-                  bottom: 24,
+                  top: 16,
+                  right: 16,
+                  bottom: 40,
                   left: 48,
                 }}
               />
@@ -101,8 +101,8 @@ const Market = () => {
                 width={boxWidth}
                 margin={{
                   top: 0,
-                  right: 0,
-                  bottom: 0,
+                  right: 16,
+                  bottom: 24,
                   left: 48,
                 }}
               />

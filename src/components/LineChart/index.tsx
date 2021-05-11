@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Group,
-  LinePath,
-  AxisLeft,
-  AxisBottom,
-  curveMonotoneX,
-} from "@visx/visx";
+import { Group, LinePath, AxisLeft, AxisBottom } from "@visx/visx";
 import { LineChartProps } from "./interfaces";
 import { DataProps } from "interfaces/DataProps";
 import {
@@ -14,7 +8,7 @@ import {
   AXIS_LEFT_TICK_LABEL_PROPS,
 } from "./constants";
 
-const AreaChart: React.FC<LineChartProps> = ({
+const LineChart: React.FC<LineChartProps> = ({
   data,
   width,
   yMax,
@@ -42,11 +36,10 @@ const AreaChart: React.FC<LineChartProps> = ({
         y={(d) => yScale(getStockValue(d)) || 0}
         strokeWidth={1.5}
         stroke={stroke}
-        curve={curveMonotoneX}
       />
       {!hideBottomAxis && (
         <AxisBottom
-          top={yMax}
+          top={yMax + margin.top}
           scale={xScale}
           numTicks={width > 520 ? 10 : 5}
           stroke={AXIS_COLOR}
@@ -71,4 +64,4 @@ const AreaChart: React.FC<LineChartProps> = ({
   );
 };
 
-export default AreaChart;
+export default LineChart;

@@ -5,7 +5,6 @@ const MarketHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 4rem;
-  margin-bottom: 1rem;
 `;
 
 const Title = styled.h2`

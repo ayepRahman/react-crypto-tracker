@@ -4,7 +4,6 @@ import {
   AreaClosed,
   AxisLeft,
   AxisBottom,
-  curveMonotoneX,
   LinearGradient,
 } from "@visx/visx";
 import { AreaChartProps, DataProps } from "./interfaces";
@@ -50,7 +49,6 @@ const AreaChart: React.FC<AreaChartProps> = ({
         strokeWidth={1.5}
         stroke={`url(#gradient)`}
         fill={`url(#gradient)`}
-        curve={curveMonotoneX}
       />
       {!hideBottomAxis && (
         <AxisBottom

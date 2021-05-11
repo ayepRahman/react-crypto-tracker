@@ -3,7 +3,10 @@ import { createGlobalStyle, DefaultTheme } from "styled-components";
 
 export enum ColorsEnum {
   primary = "#808a9d",
+  secondary = "#cfd6e4",
   lapislazuli = "#26619C",
+  lime = "#32CD32",
+  red = "#FF4136",
 }
 
 export type ColorsType = keyof typeof ColorsEnum;

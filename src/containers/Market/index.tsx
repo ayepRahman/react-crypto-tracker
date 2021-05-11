@@ -10,20 +10,11 @@ import { DataProps } from "interfaces/DataProps";
 import useWindowDimensions from "hooks/useWindowDimensions";
 import MarketProvider from "store/MarketProvider";
 
-/**
- *  TODO:
- * format price,
- * format date,
- * add margin top & right for cutout ticks
- * secondary chart - brush component for handling timeRange
- *  */
-
 const Market = () => {
   const [timeFilter, setTimeFilter] = React.useState<string>("1");
   const [isErrorMessage, setIsErrorMessage] = React.useState<string>("");
   const [boxWidth, setBoxWidth] = React.useState<number>(0);
   const { height } = useWindowDimensions();
-
   const [{ data, loading, error }] = useAxios(
     `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${timeFilter}`
   );
@@ -46,9 +37,9 @@ const Market = () => {
       handleResize(gridItemRef?.current?.clientWidth || 0)
     );
 
-    // return () => {
-    //   window.removeEventListener("resize", () => handleResize());
-    // };
+    return () => {
+      window.removeEventListener("resize", () => handleResize());
+    };
   }, [gridItemRef]);
 
   const mappedData: DataProps[] = data

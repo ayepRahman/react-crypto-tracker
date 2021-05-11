@@ -7,11 +7,18 @@ import reportWebVitals from "./reportWebVitals";
 import { theme } from "styles";
 import "@fontsource/roboto";
 
+import { BrowserRouter, Route } from "react-router-dom";
+import { QueryParamProvider } from "use-query-params";
+
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
-      <GlobalStyle />
+      <BrowserRouter>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <App />
+          <GlobalStyle />
+        </QueryParamProvider>
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

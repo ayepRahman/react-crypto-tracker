@@ -21,7 +21,7 @@ import { MarketContext } from "store/MarketProvider";
 // accessors
 const getDate = (d: DataProps) => new Date(d.date);
 const getStockValue = (d: DataProps) => d.price;
-const getFormatValue = (d: DataProps) => numeral(d.price).format("$0,0");
+const getFormatValue = (d: DataProps) => numeral(d.price).format("$0,0.00");
 const bisectDate = bisector<DataProps, Date>((d) => new Date(d.date)).left;
 
 const PrimaryChart: React.FC<PrimaryChartProps> = ({
@@ -107,7 +107,7 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
           yScale={priceScale}
           stroke={theme.colors.lapislazuli}
           xTickFormat={(d) => {
-            return numeral(d).format("$0,a");
+            return numeral(d).format(d <= 100 ? "$0.00" : "$0,0");
           }}
         />
         {/* a transparent ele that track the pointer event, allow us to display tooltup */}

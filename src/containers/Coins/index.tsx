@@ -16,6 +16,11 @@ const CHART_BOX_SIZE = {
   width: 150,
 };
 
+const INITIAL_QUERY_PARAMS = {
+  per_page: 20,
+  page: 1,
+};
+
 const MAX_PAGE_COUNT = 250;
 
 const Coins = () => {
@@ -27,17 +32,17 @@ const Coins = () => {
 
   const [{ data, loading }, refecth] = useAxios<CoinDataProps[]>(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=${
-      queryParams?.per_page || 10
+      queryParams?.per_page || INITIAL_QUERY_PARAMS.per_page
     }&page=${
-      queryParams?.page || 1
+      queryParams?.page || INITIAL_QUERY_PARAMS.page
     }&sparkline=false&price_change_percentage=1h%2C24h%2C7d
 `
   );
 
   React.useEffect(() => {
     setQueryParams({
-      per_page: queryParams?.per_page || 10,
-      page: queryParams?.page || 1,
+      per_page: queryParams?.per_page || INITIAL_QUERY_PARAMS.per_page,
+      page: queryParams?.page || INITIAL_QUERY_PARAMS.page,
     });
   }, [queryParams?.page, queryParams?.per_page, setQueryParams]);
 

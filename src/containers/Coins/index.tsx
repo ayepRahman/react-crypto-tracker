@@ -52,7 +52,7 @@ const Coins = () => {
           <th align="left">7d %</th>
           <th align="left">24h Volume</th>
           <th align="left">Mkt Cap</th>
-          <th align="left">Last 7 days</th>
+          {/* <th align="left">Last 7 days</th> */}
         </SC.TableHeaderRow>
       </thead>
     );
@@ -120,7 +120,7 @@ const Coins = () => {
                   <SC.TableData>
                     {numeral(ele.market_cap).format("$0,0")}
                   </SC.TableData>
-                  <td width={CHART_BOX_SIZE.width}>
+                  {/* <td width={CHART_BOX_SIZE.width}>
                     <CoinChart
                       height={CHART_BOX_SIZE.height}
                       width={CHART_BOX_SIZE.width}
@@ -132,7 +132,7 @@ const Coins = () => {
                       }
                       id={ele.id}
                     />
-                  </td>
+                  </td> */}
                 </SC.TableBodyRow>
               );
             })

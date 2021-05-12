@@ -37,29 +37,23 @@ const CoinChart: React.FC<CoinChartProps> = ({ id, color, height, width }) => {
   const getStockValue = (d: DataProps) => d.price;
 
   // scales
-  const dateScale = React.useCallback(
-    (width: number) => {
-      return scaleTime({
-        range: [0, width],
-        domain: extent(mappedData, getDate) as [Date, Date],
-      });
-    },
-    [mappedData]
-  );
-  const priceScale = React.useCallback(
-    (height: number) => {
-      return scaleLinear({
-        range: [height, 0],
-        domain: [
-          min(mappedData, getStockValue) || 0,
-          max(mappedData, getStockValue) || 0,
-        ],
-        nice: true,
-      });
-      //
-    },
-    [mappedData]
-  );
+  const dateScale = React.useMemo(() => {
+    return scaleTime({
+      range: [0, width],
+      domain: extent(mappedData, getDate) as [Date, Date],
+    });
+  }, [mappedData, width]);
+  const priceScale = React.useMemo(() => {
+    return scaleLinear({
+      range: [height, 0],
+      domain: [
+        min(mappedData, getStockValue) || 0,
+        max(mappedData, getStockValue) || 0,
+      ],
+      nice: true,
+    });
+    //
+  }, [height, mappedData]);
 
   if (loading) return <div>Loading...</div>;
 
@@ -73,8 +67,8 @@ const CoinChart: React.FC<CoinChartProps> = ({ id, color, height, width }) => {
           width={width}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           yMax={height}
-          xScale={dateScale(width)}
-          yScale={priceScale(height)}
+          xScale={dateScale}
+          yScale={priceScale}
           stroke={color}
         />
       </svg>

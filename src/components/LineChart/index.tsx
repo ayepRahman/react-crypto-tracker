@@ -23,6 +23,7 @@ const LineChart: React.FC<LineChartProps> = ({
   xTickFormat,
   children,
 }) => {
+  if (!data) return null;
   // accessors
   const getDate = (d: DataProps) => new Date(d?.date);
   const getStockValue = (d: DataProps) => d?.price;

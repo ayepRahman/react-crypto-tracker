@@ -25,7 +25,7 @@ const Coins = () => {
     page: NumberParam,
   });
 
-  const [{ data, loading }, reFetch] = useAxios<CoinDataProps[]>(
+  const [{ data, loading }, refecth] = useAxios<CoinDataProps[]>(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=${
       queryParams?.per_page || 10
     }&page=${
@@ -144,7 +144,7 @@ const Coins = () => {
   return (
     <SC.CoinsContainer>
       <Grid container justify="center">
-        <Grid item style={{ overflowX: "auto" }} xs={12} md={10} lg={8}>
+        <Grid item style={{ overflowX: "auto" }} xs={12} md={10}>
           {loading ? (
             <Skeleton variant="rect" height="100vh" width="100%" />
           ) : (
@@ -162,7 +162,7 @@ const Coins = () => {
                     setQueryParams({
                       page: pageNumber,
                     });
-                    reFetch();
+                    refecth();
                   }}
                 />
               </SC.PaginationWrapper>

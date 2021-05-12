@@ -7,14 +7,14 @@ import { Switch, Route } from "react-router-dom";
 const App = () => {
   return (
     <div>
-      {/* <Switch>
+      <Switch>
         <Route exact path="/">
           <Coins />
         </Route>
         <Route exact path="/market">
           <Market />
         </Route>
-      </Switch> */}
+      </Switch>
       <PoweredBy />
     </div>
   );

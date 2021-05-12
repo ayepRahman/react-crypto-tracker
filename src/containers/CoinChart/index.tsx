@@ -7,13 +7,25 @@ import { max, min, extent } from "d3-array";
 import { CoinChartProps } from "./interfaces";
 
 const CoinChart: React.FC<CoinChartProps> = ({ id, color, height, width }) => {
-  const [{ data, loading }] = useAxios(
-    `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7`
+  const [{ data, loading }, fetch] = useAxios(
+    {
+      url: `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7`,
+      method: "GET",
+    },
+    {
+      manual: true,
+    }
   );
 
+  React.useEffect(() => {
+    if (id) {
+      fetch();
+    }
+  }, [fetch, id]);
+
   const mappedData: DataProps[] = React.useMemo(() => {
-    return data
-      ? data?.prices.map((ele: any) => ({
+    return data?.prices.length
+      ? data.prices.map((ele: any) => ({
           date: new Date(ele[0]),
           price: ele[1],
         }))

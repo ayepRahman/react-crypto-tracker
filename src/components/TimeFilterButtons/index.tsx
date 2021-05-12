@@ -27,6 +27,7 @@ export const TimeFilterButtons: React.FC<{
 
   return (
     <ToggleButtonGroup
+      size="small"
       value={filter}
       exclusive
       onChange={(e, v) => {

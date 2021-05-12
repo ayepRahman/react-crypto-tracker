@@ -11,7 +11,7 @@ const App = () => {
         <Route exact path="/">
           <Coins />
         </Route>
-        <Route exact path="/market/:id">
+        <Route exact path="/market">
           <Market />
         </Route>
       </Switch>

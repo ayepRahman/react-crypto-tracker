@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import useAxios from "axios-hooks";
 import numeral from "numeral";
 import { constantCase } from "change-case";
@@ -9,6 +10,7 @@ import { CoinDataProps } from "./interfaces";
 import { SC } from "./styled";
 import { Pagination, Skeleton } from "@material-ui/lab";
 import styled from "styled-components";
+import { useQueryParams, NumberParam } from "use-query-params";
 
 const CHART_BOX_SIZE = {
   height: 40,
@@ -23,6 +25,13 @@ const CoinsContainer = styled.div`
   overflow-y: auto;
 `;
 
+const CoinsName = styled.b`
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+`;
+
 const PaginationWrapper = styled.div`
   margin: 1rem 0;
   display: flex;
@@ -31,11 +40,27 @@ const PaginationWrapper = styled.div`
 `;
 
 const Coins = () => {
-  const [page, setPage] = React.useState<number>(1);
+  const history = useHistory();
+  const [queryParams, setQueryParams] = useQueryParams({
+    per_page: NumberParam,
+    page: NumberParam,
+  });
+
   const [{ data, loading }, reFetch] = useAxios<CoinDataProps[]>(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=10&page=${page}&sparkline=false&price_change_percentage=1h%2C24h%2C7d
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=${
+      queryParams?.per_page || 10
+    }&page=${
+      queryParams?.page || 1
+    }&sparkline=false&price_change_percentage=1h%2C24h%2C7d
 `
   );
+
+  React.useEffect(() => {
+    setQueryParams({
+      per_page: queryParams?.per_page || 10,
+      page: queryParams?.page || 1,
+    });
+  }, [queryParams?.page, queryParams?.per_page, setQueryParams]);
 
   const TableHeader = () => {
     return (
@@ -69,7 +94,16 @@ const Coins = () => {
                         alt={ele.name}
                       />
                     </div>
-                    <b>{ele.name}</b>
+                    <CoinsName
+                      onClick={() => {
+                        history.push({
+                          pathname: `/market`,
+                          search: `?id=${ele.id}&name=${ele.name}`,
+                        });
+                      }}
+                    >
+                      {ele.name}
+                    </CoinsName>
                     <div style={{ color: theme.colors.primary }}>
                       {constantCase(ele.symbol)}
                     </div>
@@ -129,7 +163,7 @@ const Coins = () => {
   return (
     <CoinsContainer>
       <Grid container justify="center">
-        <Grid xs={10} md={10}>
+        <Grid style={{ overflowX: "auto" }} xs={12} md={10} lg={8}>
           {loading ? (
             <Skeleton variant="rect" height="100vh" width="100%" />
           ) : (
@@ -140,10 +174,13 @@ const Coins = () => {
               </SC.Table>
               <PaginationWrapper>
                 <Pagination
+                  size="small"
                   count={MAX_PAGE_COUNT}
-                  page={page}
+                  page={queryParams?.page || 1}
                   onChange={(e, pageNumber) => {
-                    setPage(pageNumber);
+                    setQueryParams({
+                      page: pageNumber,
+                    });
                     reFetch();
                   }}
                 />

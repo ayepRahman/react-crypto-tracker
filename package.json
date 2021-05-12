@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "15.10.0"
+    "node": "14x"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.2.3",

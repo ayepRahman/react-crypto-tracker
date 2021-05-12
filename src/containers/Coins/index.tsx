@@ -43,26 +43,28 @@ const Coins = () => {
 
   const TableHeader = () => {
     return (
-      <SC.TableHeaderRow>
-        <th align="left">#</th>
-        <th align="left">Coin</th>
-        <th align="left">Price</th>
-        <th align="left">24h %</th>
-        <th align="left">7d %</th>
-        <th align="left">24h Volume</th>
-        <th align="left">Mkt Cap</th>
-        <th align="left">Last 7 days</th>
-      </SC.TableHeaderRow>
+      <thead>
+        <SC.TableHeaderRow>
+          <th align="left">#</th>
+          <th align="left">Coin</th>
+          <th align="left">Price</th>
+          <th align="left">24h %</th>
+          <th align="left">7d %</th>
+          <th align="left">24h Volume</th>
+          <th align="left">Mkt Cap</th>
+          <th align="left">Last 7 days</th>
+        </SC.TableHeaderRow>
+      </thead>
     );
   };
 
   const TableBody = () => {
     return (
-      <>
+      <tbody>
         {data?.length
           ? data.map((ele) => {
               return (
-                <SC.TableBodyRow>
+                <SC.TableBodyRow key={ele.id}>
                   <SC.TableData>{ele.market_cap_rank}</SC.TableData>
                   <SC.TableData>
                     <div>
@@ -135,14 +137,14 @@ const Coins = () => {
               );
             })
           : null}
-      </>
+      </tbody>
     );
   };
 
   return (
     <SC.CoinsContainer>
       <Grid container justify="center">
-        <Grid style={{ overflowX: "auto" }} xs={12} md={10} lg={8}>
+        <Grid item style={{ overflowX: "auto" }} xs={12} md={10} lg={8}>
           {loading ? (
             <Skeleton variant="rect" height="100vh" width="100%" />
           ) : (

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": "15.x",
+    "npm": "7.6.3"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.2.3",

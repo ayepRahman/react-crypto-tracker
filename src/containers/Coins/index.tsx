@@ -9,7 +9,6 @@ import { theme } from "styles";
 import { CoinDataProps } from "./interfaces";
 import { SC } from "./styled";
 import { Pagination, Skeleton } from "@material-ui/lab";
-import styled from "styled-components";
 import { useQueryParams, NumberParam } from "use-query-params";
 
 const CHART_BOX_SIZE = {
@@ -18,26 +17,6 @@ const CHART_BOX_SIZE = {
 };
 
 const MAX_PAGE_COUNT = 250;
-
-const CoinsContainer = styled.div`
-  height: calc(100vh - 4rem);
-  overflow: hidden;
-  overflow-y: auto;
-`;
-
-const CoinsName = styled.b`
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-`;
-
-const PaginationWrapper = styled.div`
-  margin: 1rem 0;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`;
 
 const Coins = () => {
   const history = useHistory();
@@ -94,7 +73,7 @@ const Coins = () => {
                         alt={ele.name}
                       />
                     </div>
-                    <CoinsName
+                    <SC.CoinsName
                       onClick={() => {
                         history.push({
                           pathname: `/market`,
@@ -103,7 +82,7 @@ const Coins = () => {
                       }}
                     >
                       {ele.name}
-                    </CoinsName>
+                    </SC.CoinsName>
                     <div style={{ color: theme.colors.primary }}>
                       {constantCase(ele.symbol)}
                     </div>
@@ -161,7 +140,7 @@ const Coins = () => {
   };
 
   return (
-    <CoinsContainer>
+    <SC.CoinsContainer>
       <Grid container justify="center">
         <Grid style={{ overflowX: "auto" }} xs={12} md={10} lg={8}>
           {loading ? (
@@ -172,7 +151,7 @@ const Coins = () => {
                 <TableHeader />
                 <TableBody />
               </SC.Table>
-              <PaginationWrapper>
+              <SC.PaginationWrapper>
                 <Pagination
                   size="small"
                   count={MAX_PAGE_COUNT}
@@ -184,12 +163,12 @@ const Coins = () => {
                     reFetch();
                   }}
                 />
-              </PaginationWrapper>
+              </SC.PaginationWrapper>
             </>
           )}
         </Grid>
       </Grid>
-    </CoinsContainer>
+    </SC.CoinsContainer>
   );
 };
 

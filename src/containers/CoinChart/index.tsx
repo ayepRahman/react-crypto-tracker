@@ -4,13 +4,7 @@ import { scaleLinear, scaleTime } from "@visx/visx";
 import LineChart from "components/LineChart";
 import { DataProps } from "interfaces/DataProps";
 import { max, min, extent } from "d3-array";
-
-export interface CoinChartProps {
-  id: string;
-  color: string;
-  height: number;
-  width: number;
-}
+import { CoinChartProps } from "./interfaces";
 
 const CoinChart: React.FC<CoinChartProps> = ({ id, color, height, width }) => {
   const [{ data, loading }] = useAxios(

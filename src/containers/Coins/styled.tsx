@@ -35,7 +35,30 @@ const TableData = styled.td<{ color?: string }>`
   }
 `;
 
+const CoinsContainer = styled.div`
+  height: calc(100vh - 4rem);
+  overflow: hidden;
+  overflow-y: auto;
+`;
+
+const CoinsName = styled.b`
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+`;
+
+const PaginationWrapper = styled.div`
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const SC = {
+  CoinsContainer,
+  CoinsName,
+  PaginationWrapper,
   Table,
   TableHeaderRow,
   TableBodyRow,

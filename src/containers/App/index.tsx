@@ -7,14 +7,16 @@ import { Switch, Route } from "react-router-dom";
 const App = () => {
   return (
     <div>
-      <Switch>
-        <Route exact path="/">
-          <Coins />
-        </Route>
-        <Route exact path="/market">
-          <Market />
-        </Route>
-      </Switch>
+      <div style={{ height: "90vh" }}>
+        <Switch>
+          <Route exact path="/">
+            <Coins />
+          </Route>
+          <Route exact path="/market">
+            <Market />
+          </Route>
+        </Switch>
+      </div>
       <PoweredBy />
     </div>
   );

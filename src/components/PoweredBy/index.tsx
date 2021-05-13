@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 const PoweredByContainer = styled.div`
   width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  position: fixed;
-  bottom: 1rem;
-  margin: 0 auto;
   color: ${(p) => p.theme.colors.primary};
   cursor: pointer;
   backface-visibility: hidden;

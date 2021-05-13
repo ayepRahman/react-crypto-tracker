@@ -36,7 +36,7 @@ const TableData = styled.td<{ color?: string }>`
 `;
 
 const CoinsContainer = styled.div`
-  height: 90vh;
+  height: 100%;
   overflow: hidden;
   overflow-y: auto;
 `;

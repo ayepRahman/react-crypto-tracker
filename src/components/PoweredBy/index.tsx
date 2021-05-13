@@ -10,8 +10,6 @@ const PoweredByContainer = styled.div`
   text-align: center;
   color: ${(p) => p.theme.colors.primary};
   cursor: pointer;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 `;
 
 const PoweredBy = () => {

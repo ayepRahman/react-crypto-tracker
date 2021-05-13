@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Table = styled.table`
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 1000px;
 `;
 
 const TableHeaderRow = styled.tr`

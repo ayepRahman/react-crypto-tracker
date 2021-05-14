@@ -2,15 +2,13 @@ import React, { useMemo, useCallback } from "react";
 import { format } from "date-fns";
 import numeral from "numeral";
 import {
-  Line,
-  Bar,
   useTooltip,
   TooltipWithBounds,
   defaultStyles as defaultToopTipStyles,
-  localPoint,
-  scaleLinear,
-  scaleTime,
-} from "@visx/visx";
+} from "@visx/tooltip";
+import { scaleLinear, scaleTime } from "@visx/scale";
+import { localPoint } from "@visx/event";
+import { Line, Bar } from "@visx/shape";
 import { max, min, extent, bisector } from "d3-array";
 import { PrimaryChartProps } from "./interfaces";
 import { DataProps } from "interfaces/DataProps";

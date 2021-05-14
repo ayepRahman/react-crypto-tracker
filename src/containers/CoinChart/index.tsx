@@ -1,6 +1,6 @@
 import React from "react";
 import useAxios from "axios-hooks";
-import { scaleLinear, scaleTime } from "@visx/visx";
+import { scaleLinear, scaleTime } from "@visx/scale";
 import LineChart from "components/LineChart";
 import { DataProps } from "interfaces/DataProps";
 import { max, min, extent } from "d3-array";

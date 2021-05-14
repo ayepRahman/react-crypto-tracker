@@ -1,7 +1,9 @@
 import React from "react";
 import { DataProps } from "interfaces/DataProps";
 import AreaChart from "components/AreaChart";
-import { Brush, LinearGradient, scaleLinear, scaleTime } from "@visx/visx";
+import { scaleLinear, scaleTime } from "@visx/scale";
+import { LinearGradient } from "@visx/gradient";
+import { Brush } from "@visx/brush";
 import BaseBrush from "@visx/brush/lib/BaseBrush";
 import { Bounds } from "@visx/brush/lib/types";
 import { max, min, extent } from "d3-array";

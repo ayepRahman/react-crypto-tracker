@@ -1,11 +1,8 @@
 import React from "react";
-import {
-  Group,
-  AreaClosed,
-  AxisLeft,
-  AxisBottom,
-  LinearGradient,
-} from "@visx/visx";
+import { AreaClosed } from "@visx/shape";
+import { AxisLeft, AxisBottom } from "@visx/axis";
+import { LinearGradient } from "@visx/gradient";
+import { Group } from "@visx/group";
 import { AreaChartProps, DataProps } from "./interfaces";
 import {
   AXIS_COLOR,

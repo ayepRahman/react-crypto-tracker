@@ -1,4 +1,4 @@
-import { AxisScale } from "@visx/visx";
+import { AxisScale } from "@visx/axis";
 import { DataProps } from "interfaces/DataProps";
 
 export interface LineChartProps {

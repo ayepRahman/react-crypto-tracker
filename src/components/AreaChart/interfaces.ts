@@ -1,4 +1,4 @@
-import { AxisScale } from "@visx/visx";
+import { AxisScale } from "@visx/axis";
 export interface DataProps {
   date: string;
   price: number;

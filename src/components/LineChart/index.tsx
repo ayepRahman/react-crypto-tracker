@@ -1,5 +1,7 @@
 import React from "react";
-import { Group, LinePath, AxisLeft, AxisBottom } from "@visx/visx";
+import { LinePath } from "@visx/shape";
+import { Group } from "@visx/group";
+import { AxisLeft, AxisBottom } from "@visx/axis";
 import { LineChartProps } from "./interfaces";
 import { DataProps } from "interfaces/DataProps";
 import {

@@ -14,13 +14,6 @@
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
-    "@types/date-fns": "^2.6.0",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^12.20.12",
-    "@types/numeral": "^2.0.1",
-    "@types/react": "^17.0.5",
-    "@types/react-dom": "^17.0.3",
-    "@types/styled-components": "^5.1.9",
     "@visx/brush": "^1.8.0",
     "@visx/shape": "^1.8.0",
     "@visx/tooltip": "^1.7.2",
@@ -67,6 +60,13 @@
     ]
   },
   "devDependencies": {
+    "@types/date-fns": "^2.6.0",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^12.20.12",
+    "@types/numeral": "^2.0.1",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.3",
+    "@types/styled-components": "^5.1.9",
     "@types/d3-array": "^2.9.0",
     "@types/d3-time-format": "^3.0.0",
     "@types/react-router-dom": "^5.1.7"

@@ -8,10 +8,14 @@ import TimeFilterButtons from "components/TimeFilterButtons";
 import { SC } from "./styled";
 import { DataProps } from "interfaces/DataProps";
 import useWindowDimensions from "hooks/useWindowDimensions";
-import MarketProvider from "store/MarketProvider";
 import { useQueryParams, StringParam } from "use-query-params";
+import { MarketContext } from "store/MarketProvider";
 
 const Market = () => {
+  const {
+    filteredDataState: { filteredData },
+  } = React.useContext(MarketContext);
+
   const [queryParams] = useQueryParams({
     id: StringParam,
     name: StringParam,
@@ -74,56 +78,54 @@ const Market = () => {
   };
 
   return (
-    <MarketProvider>
-      <Grid container justify="center">
-        <Grid ref={gridItemRef} item xs={12} md={10} lg={8}>
-          <SC.MarketHeader>
-            <SC.Title>{queryParams?.name}</SC.Title>
-            <TimeFilterButtons
-              value={timeFilter}
-              onChange={(v) => setTimeFilter(v || "")}
-            />
-          </SC.MarketHeader>
-          {loading ? (
-            <Skeleton
-              variant="rect"
-              height={Math.floor(height * 0.6)}
+    <Grid container justify="center">
+      <Grid ref={gridItemRef} item xs={12} md={10} lg={8}>
+        <SC.MarketHeader>
+          <SC.Title>{queryParams?.name}</SC.Title>
+          <TimeFilterButtons
+            value={timeFilter}
+            onChange={(v) => setTimeFilter(v || "")}
+          />
+        </SC.MarketHeader>
+        {loading ? (
+          <Skeleton
+            variant="rect"
+            height={Math.floor(height * 0.6)}
+            width={boxWidth}
+          />
+        ) : mappedData?.length ? (
+          <>
+            <PrimaryChart
+              data={filteredData ?? []}
+              height={Math.floor(height * 0.4)}
               width={boxWidth}
+              margin={{
+                top: 16,
+                right: 16,
+                bottom: 40,
+                left: 48,
+              }}
             />
-          ) : mappedData?.length ? (
-            <>
-              <PrimaryChart
-                data={mappedData ?? []}
-                height={Math.floor(height * 0.4)}
-                width={boxWidth}
-                margin={{
-                  top: 16,
-                  right: 16,
-                  bottom: 40,
-                  left: 48,
-                }}
-              />
-              <SecondaryChart
-                data={mappedData ?? []}
-                height={Math.floor(height * 0.1)}
-                width={boxWidth}
-                margin={{
-                  top: 0,
-                  right: 16,
-                  bottom: 24,
-                  left: 48,
-                }}
-              />
-            </>
-          ) : null}
-        </Grid>
-        <Snackbar open={!!isErrorMessage} onClose={handleError}>
-          <Alert onClose={handleError} severity="error">
-            {isErrorMessage}
-          </Alert>
-        </Snackbar>
+            <SecondaryChart
+              data={mappedData ?? []}
+              height={Math.floor(height * 0.1)}
+              width={boxWidth}
+              margin={{
+                top: 0,
+                right: 16,
+                bottom: 24,
+                left: 48,
+              }}
+            />
+          </>
+        ) : null}
       </Grid>
-    </MarketProvider>
+      <Snackbar open={!!isErrorMessage} onClose={handleError}>
+        <Alert onClose={handleError} severity="error">
+          {isErrorMessage}
+        </Alert>
+      </Snackbar>
+    </Grid>
   );
 };
 

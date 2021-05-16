@@ -14,23 +14,20 @@ import { PrimaryChartProps } from "./interfaces";
 import { DataProps } from "interfaces/DataProps";
 import LineChart from "components/LineChart";
 import { theme } from "styles";
-import { MarketContext } from "store/MarketProvider";
 
 // accessors
 const getDate = (d: DataProps) => new Date(d.date);
-const getStockValue = (d: DataProps) => d.price;
-const getFormatValue = (d: DataProps) => numeral(d.price).format("$0,0.00");
+const getStockValue = (d: DataProps) => d?.price || 0;
+const getFormatValue = (d: DataProps) =>
+  numeral(d?.price || 0).format("$0,0.00");
 const bisectDate = bisector<DataProps, Date>((d) => new Date(d.date)).left;
 
 const PrimaryChart: React.FC<PrimaryChartProps> = ({
+  data,
   width = 10,
   height,
   margin = { top: 0, right: 0, bottom: 0, left: 0 },
 }) => {
-  const {
-    filteredDataState: { filteredData },
-  } = React.useContext(MarketContext);
-
   const {
     showTooltip,
     hideTooltip,
@@ -47,20 +44,17 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
   const dateScale = useMemo(() => {
     return scaleTime({
       range: [0, xMax],
-      domain: extent(filteredData, getDate) as [Date, Date],
+      domain: extent(data, getDate) as [Date, Date],
     });
-  }, [xMax, filteredData]);
+  }, [xMax, data]);
   const priceScale = useMemo(() => {
     return scaleLinear({
       range: [yMax + margin.top, margin.top],
-      domain: [
-        min(filteredData, getStockValue) || 0,
-        max(filteredData, getStockValue) || 0,
-      ],
+      domain: [min(data, getStockValue) || 0, max(data, getStockValue) || 0],
       nice: true,
     });
     //
-  }, [margin.top, yMax, filteredData]);
+  }, [margin.top, yMax, data]);
 
   // tooltip handler
   const handleTooltip = useCallback(
@@ -70,9 +64,9 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
       const { x } = localPoint(event) || { x: 0 };
       const currX = x - margin.left;
       const x0 = dateScale.invert(currX);
-      const index = bisectDate(filteredData, x0, 1);
-      const d0 = filteredData[index - 1];
-      const d1 = filteredData[index];
+      const index = bisectDate(data, x0, 1);
+      const d0 = data[index - 1];
+      const d1 = data[index];
       let d = d0;
 
       // calculate the cursor position and convert where to position the tooltip box.
@@ -90,14 +84,14 @@ const PrimaryChart: React.FC<PrimaryChartProps> = ({
         tooltipTop: priceScale(getStockValue(d)),
       });
     },
-    [showTooltip, priceScale, dateScale, filteredData, margin.left]
+    [showTooltip, priceScale, dateScale, data, margin.left]
   );
 
   return (
     <div style={{ position: "relative", margin: "0 0 1rem" }}>
       <svg width={width} height={height}>
         <LineChart
-          data={filteredData}
+          data={data}
           width={width}
           margin={{ ...margin }}
           yMax={yMax}

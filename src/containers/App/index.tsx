@@ -2,6 +2,8 @@ import React from "react";
 import Market from "containers/Market";
 import Coins from "containers/Coins";
 import PoweredBy from "components/PoweredBy";
+import MarketProvider from "store/MarketProvider";
+
 import { Switch, Route } from "react-router-dom";
 
 const App = () => {
@@ -13,7 +15,9 @@ const App = () => {
             <Coins />
           </Route>
           <Route exact path="/market">
-            <Market />
+            <MarketProvider>
+              <Market />
+            </MarketProvider>
           </Route>
         </Switch>
       </div>

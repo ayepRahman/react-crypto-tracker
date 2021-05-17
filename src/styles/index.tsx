@@ -4,6 +4,7 @@ import { createGlobalStyle, DefaultTheme } from "styled-components";
 export enum ColorsEnum {
   primary = "#808a9d",
   secondary = "#cfd6e4",
+  light = "#f8fafd",
   lapislazuli = "#26619C",
   lime = "#32CD32",
   red = "#FF4136",
@@ -58,8 +59,7 @@ export const theme: DefaultTheme = {
   },
   boxShadow: {
     one: "0 2px 4px 0 rgba(0, 0, 0, 0.16)",
-    two:
-      "0 -6px 16px -8px rgba(0, 0, 0, 0.08), 0 -9px 28px 0 rgba(0, 0, 0, 0.05)",
+    two: "0 -6px 16px -8px rgba(0, 0, 0, 0.08), 0 -9px 28px 0 rgba(0, 0, 0, 0.05)",
   },
   // TODO: Replace arbitrary numbers with actual values from Haiying
   mediaQuery: {

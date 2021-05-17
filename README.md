@@ -1,3 +1,31 @@
+![Alt Text](./src/assets/dc.gif)
+
+Recently, I visit a crypto tracker [site](https://coinmarketcap.com/currencies/bitcoin/) to check DogeCoin prices to see whether it going to the moon 🚀
+
+![Alt Text](https://media.giphy.com/media/Ogak8XuKHLs6PYcqlp/giphy.gif)
+
+I was curious about how to build a simplified version on that site using React, other libraries, and tools out there.
+
+So I did research to find which API to use and came across a free, reliable, and comprehensive API from the team 🦎[CoinGecko](https://www.coingecko.com/en/api).
+
+At the same time, my goal also was to focus to find a low-level visualization tool that comprises the power of using D3 with React, flexibility, optimized speed, and bundle sizes. And I came across [Visx](https://airbnb.io/visx/) from Airbnb.
+
+Some of the features that I had in mind are,
+
+- Listing all supported coins price, market cap, and volume and market-related data.
+- Display coin prices in a chart with a time filter and brushing capability to select a time range.
+
+For this project, I will be using,
+
+- reactjs with typescript
+- visx for visualization
+- styled-component for styling
+- coingecko api
+- material-ui for ui components.
+- and other libraries.
+
+Check out my blog on how i build this project https://dev.to/ayeprahman/how-i-build-crypto-tracker-chart-with-react-4k9h
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -44,4 +72,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
 # react-crypto-tracker
